@@ -25,13 +25,10 @@ load_dotenv(".env")
 def rgb_to_hex(rgb):
     return '#%02x%02x%02x' % rgb
 
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv("SecretKey")
-app.config["IMAGE_UPLOADS"] = 'static/img/'
-
+# app.config["IMAGE_UPLOADS"] = 'static/img/'
 Bootstrap(app)
-
 
 @app.route("/", methods=["POST", "GET"])
 def home():
@@ -47,22 +44,17 @@ def home():
         for color in palette:
             all_colors.append((rgb_to_hex(color)))
         return redirect(url_for("color_page", imgcolor=all_colors, img= filename))
-
     return render_template("index.html", colors=colors_example, form=form)
-
 
 @app.route("/colors")
 def color_page():
     img = request.args.get("img")
     img_color = request.args.getlist("imgcolor")
-    print(img)
     return render_template("colors.html", colors=img_color, img=img)
-
 
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
-
 
 if __name__ == '__main__':
     app.run(port=3000, debug=True)
