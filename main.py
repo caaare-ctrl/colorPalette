@@ -20,12 +20,11 @@ from werkzeug.utils import secure_filename, redirect
 from form import ImageForm
 from colorthief import ColorThief
 from PIL import Image  # for reading image files
-from flask import send_from_directory
+load_dotenv(".env")
 
 def rgb_to_hex(rgb):
     return '#%02x%02x%02x' % rgb
 
-load_dotenv(".env")
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv("SecretKey")
