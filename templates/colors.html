@@ -1,19 +1,11 @@
 {% include "header.html" %}
-<script>
-function Copy(color) {
- var cb = document.getElementById(color);
-  cb.value = color;
-  cb.style.display='block';
-  cb.select();
-  document.execCommand('copy');
-  cb.style.display='none';
-}
-</script>
-<h1>💖 Your Image 💖:</h1>
+            <h1>Five Color from Your Picture! Enjoy!✨</h1>
+
+<h2>💖 Your Image 💖:</h2>
+
 <div class="container-fluid">
     <img class="user-image" src="{{url_for('static',filename=img)}}" alt="">
     <div class="row">
-            <h2>Five Color from Your Picture! Enjoy!✨</h2>
             {%for color in colors%}
             <div class="col-md-2">
                 <input id="{{color}}" type="text" hidden>
@@ -22,6 +14,5 @@ function Copy(color) {
             </div>
             {%endfor%}
         </div>
-
 
 {% include "footer.html" %}

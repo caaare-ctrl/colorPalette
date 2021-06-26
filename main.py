@@ -12,22 +12,27 @@
 # https://stackoverflow.com/questions/3241929/python-find-dominant-most-common-color-in-an-image
 # https://towardsdatascience.com/color-identification-in-images-machine-learning-application-b26e770c4c71
 import os
+import smtplib
+
 import numpy as np
 from flask import Flask, render_template, request, url_for
 from flask.cli import load_dotenv
 from flask_bootstrap import Bootstrap
 from werkzeug.utils import secure_filename, redirect
-from form import ImageForm
+from form import ImageForm,ContactForm
 from colorthief import ColorThief
 from PIL import Image  # for reading image files
 load_dotenv(".env")
+email = os.getenv("email")
+password = os.getenv("password")
+sent_email = os.getenv("sent_email")
 
 def rgb_to_hex(rgb):
     return '#%02x%02x%02x' % rgb
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv("SecretKey")
-# app.config["IMAGE_UPLOADS"] = 'static/img/'
+app.config["IMAGE_UPLOADS"] = 'static/img/'
 Bootstrap(app)
 
 @app.route("/", methods=["POST", "GET"])
@@ -52,9 +57,19 @@ def color_page():
     img_color = request.args.getlist("imgcolor")
     return render_template("colors.html", colors=img_color, img=img)
 
-@app.route("/contact")
+@app.route("/contact",methods=["POST","GET"])
 def contact():
-    return render_template("contact.html")
+    form = ContactForm()
+    if form.validate_on_submit():
+        with smtplib.SMTP("smtp.mail.yahoo.com") as connection:
+            connection.starttls()
+            connection.login(user=email, password=password)
+            connection.sendmail(from_addr=email, to_addrs=sent_email,
+                                msg=f"Subject:Message from viewer from Color Palette - {request.form['title']}\n\nName: {request.form['name']}\n"
+                                    f"Email: {request.form['email']}\n"
+                                    f"Message: {request.form['comments']}")
+        return render_template("contact.html", form=form, sent=True)
+    return render_template("contact.html", form=form, sent=False)
 
 if __name__ == '__main__':
     app.run(port=3000, debug=True)
