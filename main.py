@@ -20,13 +20,10 @@ from werkzeug.utils import secure_filename, redirect
 from form import ImageForm
 from colorthief import ColorThief
 from PIL import Image  # for reading image files
-import matplotlib.colors as colors
 from flask import send_from_directory
 
-
-def rgb_to_hex(rgb_tuple):
-    return colors.rgb2hex([1.0 * x / 255 for x in rgb_tuple])
-
+def rgb_to_hex(rgb):
+    return '#%02x%02x%02x' % rgb
 
 load_dotenv(".env")
 
@@ -49,7 +46,7 @@ def home():
         color_thief = ColorThief(img)
         palette = color_thief.get_palette(color_count=5)
         for color in palette:
-            all_colors.append(colors.rgb2hex(rgb_to_hex(color)))
+            all_colors.append((rgb_to_hex(color)))
         return redirect(url_for("color_page", imgcolor=all_colors, img= filename))
 
     return render_template("index.html", colors=colors_example, form=form)
