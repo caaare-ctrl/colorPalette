@@ -1,8 +1,0 @@
-WTForms==2.3.3
-numpy==1.21.0
-matplotlib==3.4.2
-Flask==2.0.1
-Werkzeug==2.0.1
-colorthief==0.2.1
-Pillow==8.2.0
-Jinja2==2.11.2
