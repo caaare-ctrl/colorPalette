@@ -6,7 +6,7 @@ from wtforms.validators import DataRequired
 
 
 class ImageForm(FlaskForm):
-    image = FileField(validators=[FileRequired(),FileAllowed(['jpg', 'png'], 'Images only!')])
+    image = FileField(validators=[FileRequired(),FileAllowed(['jpg','jpeg', 'png'], 'Images only!')])
     submit = SubmitField('Submit')
 
 class ContactForm(FlaskForm):
