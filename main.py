@@ -23,9 +23,9 @@ from form import ImageForm,ContactForm
 from colorthief import ColorThief
 from PIL import Image  # for reading image files
 load_dotenv(".env")
-email = os.getenv("email")
-password = os.getenv("password")
-sent_email = os.getenv("sent_email")
+email = os.environ.get("email")
+password = os.environ.get("password")
+sent_email = os.environ.get("sent_email")
 
 def rgb_to_hex(rgb):
     return '#%02x%02x%02x' % rgb
